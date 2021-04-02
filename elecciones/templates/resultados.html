@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center><u><h1>{{region.region_name}}</h1></u></center>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'elecciones:votar' region.id %}" method="post">
+    {% csrf_token %}
+    {% for candidato in region.candidato_set.all %}
+        <input type="radio" name="opcion" id="opcion{{ forloop.counter }}" value="{{ candidato.id }}">
+        <label for="candidato{{ forloop.counter }}">{{ candidato.candidato_name }}</label><br>
+    {% endfor %}
+    <br>
+    <input  type="submit" value="Votar">
+    </form>
+    <br/>
+    <a href="{% url 'elecciones:index' %}">Ver preguntas</a>
+</body>
+</html>
